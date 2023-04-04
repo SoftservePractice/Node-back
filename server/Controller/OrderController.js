@@ -12,8 +12,9 @@ class OrderController{
         await fetch('/serverC#/order/new',requestOptions)
             .then(response => response.json())
             .then(res=>data=res)    
-            console.log(data);
+            return data;
     }
+    
 }
 
 module.exports = new OrderController();
