@@ -7,15 +7,15 @@ class MailService {
       host: "smtp.gmail.com",
       secure: false,
       auth: {
-        user: "vova77557@gmail.com",
-        pass: "fmpgyvjzndskbksd",
+        user: "avtoservis2234@gmail.com",
+        pass: "vflmscjupmvloydo",
       },
     });
   }
 
   async sendActivationMail(to, link) {
     await this.transporter.sendMail({
-      from: "vova77557@gmail.com",
+      from: "avtoservis2234@gmail.com",
       to,
       subject: "Активация акаунта",
       text:"",
