@@ -5,7 +5,7 @@ const TOKEN = '6216836480:AAFR7OgmzqPqDLskIolKd5dAXTJbMn06pdQ';
 const bot = new TelegramBot(TOKEN, {polling: true});
 
 let next_step_list = []
-let next_step_method_list = []
+let next_step_method_list = new Map()
 
 
 const acceptNumber = async (msg, phone) => {
@@ -66,20 +66,16 @@ bot.on('callback_query', async (callbackQuery) => {
         await bot.sendMessage(msg.chat.id, `Thanks`, {reply_markup: reply_markup});
     }
     if (action === 'no') {
-        next_step_list.push(`${msg.chat.id}`)
-        next_step_method_list.push({
-            'id': msg.chat.id,
-            'method': getPhone
-        })
+        next_step_list.push(msg.chat.id.toString())
+        next_step_method_list.set(msg.chat.id.toString(), getPhone)
         bot.editMessageText('Send contact number please', {chat_id: msg.chat.id, message_id: msg.message_id});
     }
 });
 
 bot.on('message', async (msg) => {
-    const next_step_position = next_step_list.indexOf(msg.chat.id.toString())
-    if(next_step_position>=0){
-        next_step_method_list[next_step_position].method(msg)
-        next_step_list.splice(next_step_position, 1)
-        next_step_method_list.splice(next_step_position, 1)
+    if(next_step_list.includes(msg.chat.id.toString())){
+        next_step_method_list.get(msg.chat.id.toString())(msg)
+        next_step_list.splice(next_step_list.indexOf(msg.chat.id.toString()), 1)
+        next_step_method_list.delete(msg.chat.id.toString())
     }
 })
