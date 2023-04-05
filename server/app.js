@@ -1,15 +1,16 @@
-import express from "express";
-import mailService from "./mail-sevise.js";
-import { v4 as uuidv4 } from "uuid";
+const express = require("express");
+const mailService = require("./mail-sevise");
+const bcrypt = require('bcryptjs');
 
 const app = express();
 app.use(express.json());
 
 const server = async () => {
-  const activationLink = uuidv4();
+ const linkTo= "orlovsky.top@gmail.com";
+  const activationLink = await bcrypt.hash(linkTo, 8);
   console.log(activationLink);
   await mailService.sendActivationMail(
-    "orlovsky.top@gmail.com",
+    linkTo,
     `http://localhost:5001/order/activate/${activationLink}`
   );
 };
