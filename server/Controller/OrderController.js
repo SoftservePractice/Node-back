@@ -1,7 +1,8 @@
 const nodemailer = require("nodemailer");
 const bcrypt = require('bcryptjs');
+const fetch = require('node-fetch');
 class OrderController{
-
+    client;
     constructor() {
         this.transporter = nodemailer.createTransport({
           service: "gmail",
@@ -15,20 +16,27 @@ class OrderController{
       }
 
     async SendOrder(order){
-        console.log("enter in SendOrder");
+
+        console.log('SendOrder start');
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
-                    order
+                   name:order.name,
+                   phone:order.phone,
+                   email:order.email,
                 })
         };
-        await fetch('/serverC#/order/new',requestOptions)
+        
+        await fetch('http://localhost:5083/Order',requestOptions)
             .then(response => response.json())
-            .then(res=>data=res)    
-            return data;
+            .then(res=>this.client=res)
+            
+            return this.client, console.log('SendOrder end');
+    
     }
     async sendActivationMail(to, link) {
+        console.log('sendActivationMail start');
         await this.transporter.sendMail({
           from: "avtoservis2234@gmail.com",
           to,
@@ -41,18 +49,19 @@ class OrderController{
           </div>
           `
         });
-
+        console.log('sendActivationMail end');
       }
     async SendActivasion(order){
-        var linkTo = order.email;
+        console.log('SendActivasion start');
+        var linkTo = this.client.email;
         var token = await bcrypt.hash(linkTo, 8);
-        var id = 2;
-        console.log(token);
-          await this.sendActivationMail(
-            linkTo,
-            `http://localhost:3000/order/activate/${token}/${id}`
-          );
-        //this.SendOrder(order);
+        var id = this.client.id;
+        
+        console.log('Client id: '+this.client.id);
+        console.log('Client email: '+this.client.email)
+        console.log('Token: '+token);
+          await this.sendActivationMail(linkTo,`http://localhost:3000/order/activate/${token}/${id}`);
+        console.log('SendActivasion end');
     }
     IsMatch(email,token){
         return bcrypt.compareSync(email, token);
