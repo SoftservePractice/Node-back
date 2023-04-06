@@ -2,3 +2,4 @@ express-validator
 bcrypt
 express
 node
+nodemailer
