@@ -27,13 +27,15 @@ class OrderController{
                    email:order.email,
                 })
         };
-        
-        await fetch('http://localhost:5083/Order',requestOptions)
+        try {
+          await fetch('http://localhost:5083/Order',requestOptions)
             .then(response => response.json())
             .then(res=>this.client=res)
-            
-            return this.client, console.log('SendOrder end');
-    
+        }
+        catch{
+          return this.client, console.log('SendOrder end(without server)');
+        }
+        return this.client, console.log('SendOrder end');
     }
     async sendActivationMail(to, link) {
         console.log('sendActivationMail start');
@@ -53,12 +55,12 @@ class OrderController{
       }
     async SendActivasion(order){
         console.log('SendActivasion start');
-        var linkTo = this.client.email;
+        var linkTo = order.email;//this.client.email;
         var token = await bcrypt.hash(linkTo, 8);
-        var id = this.client.id;
+        var id = 0//this.client.id;
         
-        console.log('Client id: '+this.client.id);
-        console.log('Client email: '+this.client.email)
+        console.log('Client id: '+0);
+        console.log('Client email: '+order.email)
         console.log('Token: '+token);
           await this.sendActivationMail(linkTo,`http://localhost:3000/order/activate/${token}/${id}`);
         console.log('SendActivasion end');
