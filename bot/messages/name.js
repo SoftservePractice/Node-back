@@ -11,8 +11,11 @@ const saveName = async (bot, msg) => {
         if (response.status === 200) {
             await bot.sendMessage(msg.chat.id, `Благодарим за подтверждение`);
         }
-    } catch (error) {
-        console.log(error)
+        else {
+            console.error(response)
+        }
+    } catch (e) {
+        console.log(e)
     }
 }
 

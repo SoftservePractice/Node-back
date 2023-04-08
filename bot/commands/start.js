@@ -1,27 +1,9 @@
 const fetch = require('node-fetch');
 const {nameRequest} = require("../messages/name");
+const {sendPhone} = require("../messages/phone");
+const {getMainKeyboard} = require("../mainKeyboard");
 
-const sendPhone = async (bot, msg, client) =>{
-    if(!client){
-        const response = await fetch(`https://localhost:7083/Client?name=${msg.chat.id}&phone=${msg.chat.id}&telegramId=${msg.chat.id}`,{
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' }})
-    }
-    const reply_markup = {
-        keyboard: [
-            [
-                {
-                    text: 'Отправить номер',
-                    request_contact: true,
 
-                }
-            ]
-        ],
-        is_persistent: true,
-        resize_keyboard: true
-    }
-    await bot.sendMessage(msg.chat.id, `Подтвердите свой номер`, {reply_markup: reply_markup});
-}
 
 const startHandler = async (bot, msg) => {
     if (msg.text.toString().includes(' ')) {
@@ -29,27 +11,16 @@ const startHandler = async (bot, msg) => {
         console.log(id)
     } else {
         const client = await (await fetch(`https://localhost:7083/Client?telegramId=${msg.chat.id}`)).json()
-        // console.log(client)
         if(client.length>0){
-            if(client[0].phone === null || client[0].phone === msg.chat.id.toString())
+            if(client[0].phone === null || client[0].isConfirm === false)
             {
-                await sendPhone(bot, msg, client)
+                await sendPhone(bot, msg, client[0])
             }
-            else if(client[0].name === null || client[0].name === msg.chat.id.toString()){
+            else if(client[0].name === null){
                 await nameRequest(bot, msg)
             }
             else {
-                const reply_markup = {
-                    keyboard: [
-                        [
-                            {
-                                text: 'test',
-                                request_contact: true
-                            }
-                        ]
-                    ],
-                }
-                await bot.sendMessage(msg.chat.id, `Здравствуйте, ${msg.chat.first_name}`, {reply_markup: reply_markup});
+                await bot.sendMessage(msg.chat.id, `Здравствуйте, ${msg.chat.first_name}`, {reply_markup: getMainKeyboard(msg.chat.id)});
             }
         }
         else {

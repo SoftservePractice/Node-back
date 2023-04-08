@@ -1,6 +1,6 @@
 const TelegramBot = require('node-telegram-bot-api');
 const {startHandler} = require("./commands/start");
-const {confirmPhone} = require("./messages/contact");
+const {confirmPhone, phoneSelection} = require("./messages/phone");
 const {getNextStepList, deleteNextStep} = require("./registerNextStep");
 
 const TOKEN = '6216836480:AAFR7OgmzqPqDLskIolKd5dAXTJbMn06pdQ';
@@ -21,12 +21,9 @@ bot.on('contact', async (msg) => {
 
 
 bot.on('callback_query', async (callbackQuery) => {
-    // if (callbackQuery.data === 'yes') {
-    //     await confirmPhoneCallback(bot, callbackQuery.message)
-    // }
-    // if (callbackQuery.data === 'no') {
-    //     await refusalPhoneCallback(bot, callbackQuery.message)
-    // }
+    if (callbackQuery.data.includes('phone')) {
+        await phoneSelection(bot, callbackQuery)
+    }
 });
 
 bot.on('message', async (msg) => {
