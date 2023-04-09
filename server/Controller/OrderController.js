@@ -28,14 +28,14 @@ class OrderController{
                 })
         };
         try {
-          await fetch('http://localhost:5083/Order',requestOptions)
+          await fetch(`http://localhost:5083/Order/${order.name}`,requestOptions)
             .then(response => response.json())
             .then(res=>this.client=res)
         }
         catch{
-          return this.client, console.log('SendOrder end(without server)');
+          return this.client, console.log('Succesfull send order');
         }
-        return this.client, console.log('SendOrder end');
+        return this.client, console.log('Failed send order');
     }
     async sendActivationMail(to, link) {
         console.log('sendActivationMail start');
