@@ -1,5 +1,6 @@
 const TelegramBot = require('node-telegram-bot-api');
 const {startHandler} = require("./commands/start");
+const {timeHandler} = require("./commands/time");
 const {confirmPhone, phoneSelection} = require("./messages/phone");
 const {getNextStepList, deleteNextStep} = require("./registerNextStep");
 
@@ -14,12 +15,12 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 bot.onText(/\/start/, async (msg) => {
     await startHandler(bot, msg)
 })
-
+bot.onText(/\/settime/, async (msg)=>{
+    await timeHandler(bot,msg);
+})
 bot.on('contact', async (msg) => {
     await confirmPhone(bot, msg, msg.contact.phone_number)
 })
-
-
 bot.on('callback_query', async (callbackQuery) => {
     if (callbackQuery.data.includes('phone')) {
         await phoneSelection(bot, callbackQuery)
