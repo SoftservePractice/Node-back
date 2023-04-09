@@ -26,7 +26,20 @@ const saveTime = async (bot, msg) => {
 }
 
 const timeRequest = async (bot, msg) => {
-    await bot.sendMessage(msg.chat.id, `Введите время на которое вам удобно записаться\nПример времени:2023-12-09 9:00`, {reply_markup: getMainKeyboard(msg.chat.id)})
+    const reply_markup = {
+        keyboard: [
+            [
+                {
+                    text: 'Отправить номер',
+                    request_contact: true,
+
+                }
+            ]
+        ],
+        is_persistent: true,
+        resize_keyboard: true
+    }
+    await bot.sendMessage(msg.chat.id, `Введите время на которое вам удобно записаться\nПример времени:2023-12-09 9:00`, {reply_markup: reply_markup})
     await registerNextStep(msg.chat.id.toString(), saveTime)
   }
 

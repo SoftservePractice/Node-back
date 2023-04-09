@@ -1,6 +1,6 @@
 const TelegramBot = require('node-telegram-bot-api');
 const {startHandler} = require("./commands/start");
-const {timeHandler} = require("./commands/time");
+const {orderHandler} = require("./commands/order");
 const {confirmPhone, phoneSelection} = require("./messages/phone");
 const {getNextStepList, deleteNextStep} = require("./registerNextStep");
 
@@ -16,7 +16,7 @@ bot.onText(/\/start/, async (msg) => {
     await startHandler(bot, msg)
 })
 bot.onText(/\/settime/, async (msg)=>{
-    await timeHandler(bot,msg);
+    await orderHandler(bot,msg);
 })
 bot.on('contact', async (msg) => {
     await confirmPhone(bot, msg, msg.contact.phone_number)

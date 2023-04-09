@@ -1,8 +1,9 @@
 const {timeRequest} = require('../messages/time');
 
 
-const timeHandler = async (bot, msg) => {
+const orderHandler = async (bot, msg) => {
     await timeRequest(bot,msg)
+    
 };
 
-module.exports = {timeHandler}
+module.exports = {orderHandler}
