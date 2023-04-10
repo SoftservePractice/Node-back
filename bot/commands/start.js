@@ -34,7 +34,20 @@ const startHandler = async (bot, msg) => {
         await nameRequest(bot, msg)
     }
     else {
-        await bot.sendMessage(msg.chat.id, `Здравствуйте, ${msg.chat.first_name}`, {reply_markup: getMainKeyboard(msg.chat.id)});
+        const reply_markup = {
+            keyboard: [
+                [
+                    {
+                        text: 'Записаться',
+                        callback_data: '/setTime'
+                    }
+                ]
+            ],
+            is_persistent: true,
+            resize_keyboard: true
+        }
+        await bot.sendMessage(msg.chat.id, `Здравствуйте, ${msg.chat.first_name}`, {reply_markup: reply_markup});
+        
     }
 }
 
