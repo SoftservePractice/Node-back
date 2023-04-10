@@ -2,7 +2,7 @@ const fetch = require("node-fetch");
 const {registerNextStep} = require("../registerNextStep");
 const {getMainKeyboard} = require("../mainKeyboard");
 
-const saveTime = async (bot, msg, client) => {
+const saveTime = async (bot, msg) => {
     
     const date = new Date(`${msg.text.split(" ")[0]}T0${msg.text.split(" ")[1]}`);
     const formattedDate = date.toLocaleString('ru-RU', {
