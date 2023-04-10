@@ -28,7 +28,7 @@ const requestIdOrder = async (bot, msg) => {
     const orderStrings = orders.map(order => `Запись №${order.id}\nЗапись на:${order.start}`);
     await bot.sendMessage(msg.chat.id, `${orderStrings}\nВыберите запись которую хотите удалить\nНапример 1`, {reply_markup: getMainKeyboard(msg.chat.id)})
     await registerNextStep(msg.chat.id.toString(), deleteOrder)
-  }
+}
 
 
 module.exports = {requestIdOrder}
