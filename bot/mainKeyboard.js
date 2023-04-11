@@ -1,6 +1,6 @@
 const getMainKeyboard = (id) => {
     return {
-        "keyboard": [["test"]],
+        "keyboard": [["Просмотреть запись"]],
         is_persistent: true,
         resize_keyboard: true
     }

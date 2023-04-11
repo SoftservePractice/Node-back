@@ -34,19 +34,39 @@ const startHandler = async (bot, msg) => {
         await nameRequest(bot, msg)
     }
     else {
-        const reply_markup = {
-            keyboard: [
-                [
-                    {
-                        text: 'Записаться',
-                        callback_data: '/setTime'
-                    }
-                ]
-            ],
-            is_persistent: true,
-            resize_keyboard: true
+        client = await (await fetch(`https://localhost:7083/Client?telegramId=${msg.chat.id}`)).json()
+        client = client[0]
+        order = await (await fetch(`https://localhost:7083/Order?clientId=${client.id}`)).json()
+        if(order.length === 0){
+            const reply_markup = {
+                keyboard: [
+                    [
+                        {
+                            text: 'Хочу записаться',
+                        }
+                    ]
+                ],
+                is_persistent: true,
+                resize_keyboard: true
+            }
+            await bot.sendMessage(msg.chat.id, `Здравствуйте, ${msg.chat.first_name}`, {reply_markup: reply_markup});
+
         }
-        await bot.sendMessage(msg.chat.id, `Здравствуйте, ${msg.chat.first_name}`, {reply_markup: reply_markup});
+        else{
+            const reply_markup = {
+                keyboard: [
+                    [
+                        {
+                            text: 'Просмотреть запись',
+                        }
+                    ]
+                ],
+                is_persistent: true,
+                resize_keyboard: true
+            }
+            await bot.sendMessage(msg.chat.id, `Здравствуйте, ${msg.chat.first_name}`,{reply_markup: reply_markup});
+
+        }
         
     }
 }
