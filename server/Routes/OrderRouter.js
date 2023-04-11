@@ -9,6 +9,7 @@ app.post('/',async (req,res)=>{
 })
 app.get('/activate/:token/:id',async (req,res)=>{
    await ClientController.ConfirmEmail(req,res);
+   res.send('Confirmed');
 })
 
 module.exports = app;
