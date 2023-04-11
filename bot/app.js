@@ -9,7 +9,7 @@ const TOKEN = '6216836480:AAFR7OgmzqPqDLskIolKd5dAXTJbMn06pdQ';
 
 const bot = new TelegramBot(TOKEN, {polling: true});
 
-
+process.env.SERVER_URL = 'http://egorhi-001-site1.htempurl.com';
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 

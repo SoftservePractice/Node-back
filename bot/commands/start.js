@@ -9,8 +9,8 @@ const startHandler = async (bot, msg) => {
     let client;
     if (msg.text.toString().includes(' ')) {
         const id = msg.text.toString().split(' ')[1]
-        if((await (await fetch(`https://localhost:7083/Client?telegramId=${msg.chat.id}`)).json()).length === 0){
-            const response = await fetch(`https://localhost:7083/Client/${id}?telegramId=${msg.chat.id}`, {
+        if((await (await fetch(`${process.env.SERVER_URL}/Client?telegramId=${msg.chat.id}`)).json()).length === 0){
+            const response = await fetch(`${process.env.SERVER_URL}/Client/${id}?telegramId=${msg.chat.id}`, {
                 method: 'PATCH',
             })
             if(response.status === 200){
@@ -18,7 +18,7 @@ const startHandler = async (bot, msg) => {
             }
         }
     } else {
-        client = await (await fetch(`https://localhost:7083/Client?telegramId=${msg.chat.id}`)).json()
+        client = await (await fetch(`${process.env.SERVER_URL}/Client?telegramId=${msg.chat.id}`)).json()
         if(client.length>0){
             client = client[0]
         }
@@ -34,9 +34,9 @@ const startHandler = async (bot, msg) => {
         await nameRequest(bot, msg)
     }
     else {
-        client = await (await fetch(`https://localhost:7083/Client?telegramId=${msg.chat.id}`)).json()
+        client = await (await fetch(`${process.env.SERVER_URL}/Client?telegramId=${msg.chat.id}`)).json()
         client = client[0]
-        order = await (await fetch(`https://localhost:7083/Order?clientId=${client.id}`)).json()
+        order = await (await fetch(`${process.env.SERVER_URL}/Order?clientId=${client.id}`)).json()
         if(order.length === 0){
             const reply_markup = {
                 keyboard: [

@@ -5,7 +5,7 @@ const {getMainKeyboard} = require("../mainKeyboard");
 const sendPhone = async (bot, msg, client) => {
     try {
         if (!client) {
-            const response = await fetch(`https://localhost:7083/Client?telegramId=${msg.chat.id}`, {
+            const response = await fetch(`${process.env.SERVER_URL}/Client?telegramId=${msg.chat.id}`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'}
             })
@@ -35,7 +35,7 @@ const sendPhone = async (bot, msg, client) => {
 
 const confirmPhone = async (bot, msg, tg_phone) => {
     try {
-        const client = (await (await fetch(`https://localhost:7083/Client?telegramId=${msg.chat.id}`)).json())[0]
+        const client = (await (await fetch(`${process.env.SERVER_URL}/Client?telegramId=${msg.chat.id}`)).json())[0]
         const phone = tg_phone.replaceAll('+', '').replaceAll(' ', '').replaceAll('-', '')
         if (client.phone !== null) {
             const old_phone = client.phone.replaceAll('+', '').replaceAll(' ', '').replaceAll('-', '')
@@ -58,7 +58,7 @@ const confirmPhone = async (bot, msg, tg_phone) => {
                 }
                 await bot.sendMessage(msg.chat.id, `Выберите номер для связи`, {reply_markup: reply_markup});
             } else {
-                const response = await fetch(`https://localhost:7083/Client/${client.id}?isConfirm=true`, {
+                const response = await fetch(`${process.env.SERVER_URL}/Client/${client.id}?isConfirm=true`, {
                     method: 'PATCH',
                 })
                 if (response.status === 200) {
@@ -74,7 +74,7 @@ const confirmPhone = async (bot, msg, tg_phone) => {
 
             }
         } else {
-            const response = await fetch(`https://localhost:7083/Client/${client.id}?phone=${phone}&isConfirm=true`, {
+            const response = await fetch(`${process.env.SERVER_URL}/Client/${client.id}?phone=${phone}&isConfirm=true`, {
                 method: 'PATCH',
             })
             if (response.status === 200) {
@@ -96,9 +96,9 @@ const confirmPhone = async (bot, msg, tg_phone) => {
 
 const phoneSelection = async (bot, callbackQuery) => {
   try{
-      const client = (await (await fetch(`https://localhost:7083/Client?telegramId=${callbackQuery.message.chat.id}`)).json())[0]
+      const client = (await (await fetch(`${process.env.SERVER_URL}/Client?telegramId=${callbackQuery.message.chat.id}`)).json())[0]
       const phone = callbackQuery.data.split(':')[1]
-      const response = await fetch(`https://localhost:7083/Client/${client.id}?phone=${phone}&isConfirm=true`, {
+      const response = await fetch(`${process.env.SERVER_URL}/Client/${client.id}?phone=${phone}&isConfirm=true`, {
           method: 'PATCH',
       })
       if (response.status === 200) {

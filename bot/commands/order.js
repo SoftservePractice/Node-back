@@ -2,9 +2,9 @@ const fetch = require("node-fetch");
 
 const orderHandler = async (bot, msg) => {
     {
-      client = await (await fetch(`https://localhost:7083/Client?telegramId=${msg.chat.id}`)).json()
+      client = await (await fetch(`${process.env.SERVER_URL}/Client?telegramId=${msg.chat.id}`)).json()
       client = client[0]
-        order = await (await fetch(`https://localhost:7083/Order?clientId=${client.id}`)).json()
+        order = await (await fetch(`${process.env.SERVER_URL}/Order?clientId=${client.id}`)).json()
         if(order.length === 0){
           const inlineKeyboard = {
             inline_keyboard: [

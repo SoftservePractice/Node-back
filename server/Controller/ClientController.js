@@ -1,7 +1,8 @@
 const nodemailer = require("nodemailer");
 const bcrypt = require('bcryptjs');
 const fetch = require('node-fetch');
-class OrderController {
+const { response } = require("../Routes/OrderRouter");
+class ClientController {
   constructor() {
     this.transporter = nodemailer.createTransport({
       service: "gmail",
@@ -15,21 +16,15 @@ class OrderController {
   }
   async CreateUser(req, res, order) {
     console.log('Created user start')
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name: order.name,
-        phone: order.phone,
-        email: order.email,
-      })
-    };
+    console.log(order)
     try {
-      await fetch(`https://localhost:7083/Client`, requestOptions)
-        .then(response => response.json())
-        .then(res => client = res);
-      console.log(client);
-      initActivasion(order,client)
+    console.log('Fetch start')
+      await fetch(`http://egorhi-001-site1.htempurl.com/Client?name=${order.name}&phone=${order.phone}&email=${order.email}`,{
+        method: 'POST',
+      }).then(response => response.json())
+        .then(response=>client=response.body);
+        initActivasion(client)
+      
     }
     catch {
       return res.status(400);
@@ -52,8 +47,8 @@ class OrderController {
     });
     console.log('sendActivationMail end');
   }
-  async initActivasion(order,client) {
-    console.log('SendActivasion start');
+  async initActivasion(client) {
+    console.log(client);
     var token = await bcrypt.hash(client.email, 8);
     console.log('Client id: ' + client.id);
     console.log('Client email: ' + client.email)
@@ -69,7 +64,7 @@ class OrderController {
     const id = req.params.id;
     console.log(token);
     console.log(id);
-    client = await (await fetch(`https://localhost:7083/Client/${id}`)).json()
+    client = await (await fetch(`http://egorhi-001-site1.htempurl.com/Client/${id}`)).json()
     client = client[0]
     if (IsMatch(client.email, token)) {
       console.log('confirmed')
@@ -97,4 +92,4 @@ class OrderController {
   }
 }
 
-module.exports = new OrderController();
+module.exports = new ClientController();

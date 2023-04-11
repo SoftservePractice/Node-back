@@ -12,10 +12,10 @@ const saveTime = async (bot, msg) => {
     }).replace(/\./g, '-');
 
     try {
-        client = await (await fetch(`https://localhost:7083/Client?telegramId=${msg.chat.id}`)).json()
+        client = await (await fetch(`${process.env.SERVER_URL}/Client?telegramId=${msg.chat.id}`)).json()
         client = client[0]
         console.log(client);
-        const response = await fetch(`https://localhost:7083/Order?clientId=${client.id}&start=${formattedDate}`, {
+        const response = await fetch(`${process.env.SERVER_URL}/Order?clientId=${client.id}&start=${formattedDate}`, {
             method: 'POST'
         })
         if (response.status === 200) {
@@ -30,9 +30,9 @@ const saveTime = async (bot, msg) => {
     }
 }
 const changeTime = async (bot, msg) => {
-    client = await (await fetch(`https://localhost:7083/Client?telegramId=${msg.chat.id}`)).json()
+    client = await (await fetch(`${process.env.SERVER_URL}/Client?telegramId=${msg.chat.id}`)).json()
     client = client[0]
-    order = await (await fetch(`https://localhost:7083/Order?clientId=${client.id}`)).json()
+    order = await (await fetch(`${process.env.SERVER_URL}/Order?clientId=${client.id}`)).json()
     order = order[0];
     const date = new Date(`${msg.text}`);
     const formattedDate = date.toLocaleDateString('ru-RU', {
@@ -42,7 +42,7 @@ const changeTime = async (bot, msg) => {
     }).replace(/\./g, '-');
     console.log(formattedDate);
     try {
-        const response = await fetch(`https://localhost:7083/Order/${order.id}?start=${formattedDate}`, {
+        const response = await fetch(`${process.env.SERVER_URL}/Order/${order.id}?start=${formattedDate}`, {
             method: 'PATCH'
         })
         if (response.status === 200) {
@@ -58,9 +58,9 @@ const changeTime = async (bot, msg) => {
 }
 const timeRequest = async (bot, msg) => {
     await bot.sendMessage(msg.chat.id, `Введите время на которое вам удобно записаться\nПример времени: 2023-12-09`)
-    client = await (await fetch(`https://localhost:7083/Client?telegramId=${msg.chat.id}`)).json()
+    client = await (await fetch(`${process.env.SERVER_URL}/Client?telegramId=${msg.chat.id}`)).json()
     client = client[0]
-    order = await (await fetch(`https://localhost:7083/Order?clientId=${client.id}`)).json()
+    order = await (await fetch(`${process.env.SERVER_URL}/Order?clientId=${client.id}`)).json()
     if (order.length === 0) {
         await registerNextStep(msg.chat.id.toString(), saveTime)
     }

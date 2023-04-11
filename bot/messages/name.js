@@ -4,8 +4,8 @@ const {getMainKeyboard} = require("../mainKeyboard");
 
 const saveName = async (bot, msg) => {
     try {
-        const client = (await (await fetch(`https://localhost:7083/Client?telegramId=${msg.chat.id}`)).json())[0]
-        const response = await fetch(`https://localhost:7083/Client/${client.id}?name=${msg.text.toString()}`, {
+        const client = (await (await fetch(`${process.env.SERVER_URL}/Client?telegramId=${msg.chat.id}`)).json())[0]
+        const response = await fetch(`${process.env.SERVER_URL}/Client/${client.id}?name=${msg.text.toString()}`, {
             method: 'PATCH'
         })
         if (response.status === 200) {

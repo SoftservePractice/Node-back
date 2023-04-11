@@ -2,7 +2,7 @@ const express = require("express");
 const OrderRouter = require("./Routes/OrderRouter")
 const app = express();
 const cors = require('cors');
-
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 const corsOptions = {
   origin: 'http://localhost:3001',
   optionsSuccessStatus: 200
