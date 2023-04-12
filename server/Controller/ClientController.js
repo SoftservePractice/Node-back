@@ -22,10 +22,15 @@ class ClientController {
         await fetch(`http://egorhi-001-site1.htempurl.com/Client?name=${order.name}&phone=${order.phone}&email=${order.email}`, {
             method: 'POST',
         })
+       
         var client = await (await fetch(`http://egorhi-001-site1.htempurl.com/Client?name=${order.name}`)).json();
+       
         if (client && client.length > 0) {
             client = client[0];
             console.log(client);
+            await fetch(`http://egorhi-001-site1.htempurl.com/Order?clientId=${client.id}&appointmentTime=${order.datetime}`, {
+                method: 'POST',
+            })
             await this.initActivasion(client);
         } else {
             //
