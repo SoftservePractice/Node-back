@@ -51,7 +51,7 @@ class ClientController {
     async initActivasion(client) {
         console.log(client.email);
 
-        var token = await bcrypt.hashSync(client.email,8);
+        var token = await bcrypt.hashSync(client.email);
 
         console.log('Client id: ' + client.id);
         console.log('Client email: ' + client.email)
@@ -68,12 +68,11 @@ class ClientController {
         console.log(token);
         console.log(id);
         var client = await (await fetch(`http://egorhi-001-site1.htempurl.com/Client/${id}`)).json()
-        client = client[0]
         console.log(client);
         if (this.IsMatch(client.email, token)) {
             console.log('confirmed')
             try {
-                await fetch(`http://egorhi-001-site1.htempurl.com/Client/${client.id}?isConfirm=${true}`,{
+                await fetch(`http://egorhi-001-site1.htempurl.com/Client/${client.id}?isConfirm=1`,{
                     method:"PATCH"
                 })
             }
