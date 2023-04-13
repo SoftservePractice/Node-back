@@ -5,6 +5,8 @@ const {confirmPhone, phoneSelection} = require("./messages/phone");
 const {getNextStepList, deleteNextStep} = require("./registerNextStep");
 const {timeRequest} = require('./messages/time');
 const {deleteOrder} = require('./messages/cancelorder');
+const {workStage} = require('./messages/workStage');
+const {contacts} = require('./messages/contacts');
 const TOKEN = '6216836480:AAFR7OgmzqPqDLskIolKd5dAXTJbMn06pdQ';
 
 const bot = new TelegramBot(TOKEN, {polling: true});
@@ -30,6 +32,12 @@ bot.on('callback_query', async (callbackQuery) => {
     else if (action === 'deleteOrder') {
       await deleteOrder(bot, callbackQuery.message);
     }
+    else if(action === 'return'){
+        await startHandler(bot, callbackQuery.message);
+    }
+    else if(action === 'workStage'){
+        await workStage(bot,callbackQuery.message)
+    }
 });
 
 bot.on('message', async (msg) => {
@@ -44,7 +52,7 @@ bot.on('message', async (msg) => {
     if(msg.text === 'Просмотреть запись'){
         await orderHandler(bot,msg);
     }
-    if(msg.text === 'Вернуться'){
-        await startHandler(bot, msg);
+    if(msg.text === 'Связь с нами'){
+        await contacts(bot,msg);
     }
 })

@@ -53,18 +53,8 @@ const startHandler = async (bot, msg) => {
 
         }
         else{
-            const reply_markup = {
-                keyboard: [
-                    [
-                        {
-                            text: 'Просмотреть запись',
-                        }
-                    ]
-                ],
-                is_persistent: true,
-                resize_keyboard: true
-            }
-            await bot.sendMessage(msg.chat.id, `Здравствуйте, ${msg.chat.first_name}`,{reply_markup: reply_markup});
+            
+            await bot.sendMessage(msg.chat.id, `Здравствуйте, ${msg.chat.first_name}`,{reply_markup: getMainKeyboard(msg.chat.id)});
 
         }
         

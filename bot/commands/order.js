@@ -20,6 +20,7 @@ const orderHandler = async (bot, msg) => {
             inline_keyboard: [
               [{ text: 'Перенести', callback_data: 'settime' }],
               [{ text: 'Отменить запись', callback_data: 'deleteOrder' }],
+              [{ text: 'Статус работы', callback_data: 'workStage' }],
               [{ text: 'Вернуться', callback_data: 'return' }]
             ]
           };
