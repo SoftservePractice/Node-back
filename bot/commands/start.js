@@ -36,7 +36,7 @@ const startHandler = async (bot, msg) => {
     else {
         client = await (await fetch(`${process.env.SERVER_URL}/Client?telegramId=${msg.chat.id}`)).json()
         client = client[0]
-        order = await (await fetch(`${process.env.SERVER_URL}/Order?clientId=${client.id}`)).json()
+        const order = await (await fetch(`${process.env.SERVER_URL}/Order?clientId=${client.id}`)).json()
         if(order.length === 0){
             const reply_markup = {
                 keyboard: [
@@ -53,11 +53,10 @@ const startHandler = async (bot, msg) => {
 
         }
         else{
-            
-            await bot.sendMessage(msg.chat.id, `Здравствуйте, ${msg.chat.first_name}`,{reply_markup: getMainKeyboard(msg.chat.id)});
 
+            const response = await bot.sendMessage(msg.chat.id, `Здравствуйте, ${msg.chat.first_name}`,{reply_markup: await getMainKeyboard(msg.chat.id)});
         }
-        
+
     }
 }
 
