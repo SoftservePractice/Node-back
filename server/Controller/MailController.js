@@ -1,6 +1,7 @@
 const nodemailer = require("nodemailer");
+const bcrypt = require('bcryptjs');
 
-class MailService {
+class MailController {
   constructor() {
     this.transporter = nodemailer.createTransport({
       service: "gmail",
@@ -12,8 +13,15 @@ class MailService {
       },
     });
   }
-
-  async sendActivationMail(to, link) {
+  async GenerateActivationLink(to){
+    var salt = bcrypt.genSaltSync(16);
+    var token = await bcrypt.hashSync(to, salt);
+    console.log('Token: ' + token);
+    var link = `http://localhost:3000/order/activate/${encodeURIComponent(token)}`;
+    console.log('Link: ' + link);
+    return link;
+  }
+  async sendActivationMail(to,link) {
     await this.transporter.sendMail({
       from: "avtoservis2234@gmail.com",
       to,
@@ -123,4 +131,4 @@ class MailService {
     });
   }
 }
-module.exports = new MailService();
+module.exports = new MailController();
