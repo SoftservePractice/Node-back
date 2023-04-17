@@ -31,7 +31,6 @@ class MailController{
     }
     async initActivasion(client) {
         console.log(client.email);
-
         var salt = bcrypt.genSaltSync(16);
         var token = await bcrypt.hashSync(client.email, salt);
         console.log('Client id: ' + client.id);

@@ -8,6 +8,7 @@ const {deleteOrder} = require('./messages/cancelorder');
 const {workStage} = require('./messages/workStage');
 const {contacts} = require('./messages/contacts');
 const {orderList, order} = require("./messages/order");
+const {workList} = require("./messages/workList");
 const TOKEN = '6216836480:AAFR7OgmzqPqDLskIolKd5dAXTJbMn06pdQ';
 
 const bot = new TelegramBot(TOKEN, {polling: true});
@@ -27,7 +28,7 @@ bot.on('callback_query', async (callbackQuery) => {
     if (action.includes( 'phone')) {
         await phoneSelection(bot, callbackQuery)
     }
-    if (action === 'settime') {
+    else if (action === 'settime') {
         await timeRequest(bot, callbackQuery.message)
     }
     else if (action === 'deleteOrder') {
@@ -39,8 +40,8 @@ bot.on('callback_query', async (callbackQuery) => {
     else if(action === 'workStage'){
         await workStage(bot,callbackQuery.message)
     }
-    if (action.includes( 'order')) {
-        await order(bot, callbackQuery)
+    else if (action === 'order') {
+        await order(bot, callbackQuery.message)
     }
 });
 
@@ -61,5 +62,8 @@ bot.on('message', async (msg) => {
     }
     if(msg.text === 'Связь с нами'){
         await contacts(bot,msg);
+    }
+    if(msg.text === 'Услуги'){
+        await workList(bot,msg);
     }
 })

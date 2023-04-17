@@ -1,5 +1,8 @@
 {
   "dependencies": {
+    "cli-table": "^0.3.11",
+    "cli-table3": "^0.6.3",
+    "markdown-table": "^3.0.3",
     "node-fetch": "^2.6.9",
     "node-telegram-bot-api": "^0.61.0"
   }

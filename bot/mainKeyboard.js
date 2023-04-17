@@ -20,7 +20,7 @@ const getMainKeyboard = async (id) => {
     if (history_order) {
         keyboard.push(["История ремонтов"])
     }
-    keyboard.push(["Связь с нами"])
+    keyboard.push(["Связь с нами","Услуги"])
     return {
         "keyboard": keyboard,
         is_persistent: true,
