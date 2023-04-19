@@ -52,13 +52,18 @@ const orderHandler = async (bot, msg) => {
         }
         else{
             const order = current_order[0];
+            let keyboard =[]
+            if(order.start){
+                keyboard.push([{ text: 'Статус роботи', callback_data: 'workStage' }])
+                keyboard.push([{ text: 'Повернутись', callback_data: 'return' }])
+            }
+            else{
+                keyboard.push([{ text: 'Перенести', callback_data: 'settime' }])
+                keyboard.push([{ text: 'Скасувати запис', callback_data: 'deleteOrder' }])
+                keyboard.push([{ text: 'Повернутись', callback_data: 'return' }])
+            }
             const inlineKeyboard = {
-                inline_keyboard: [
-                    [{ text: 'Перенести', callback_data: 'settime' }],
-                    [{ text: 'Скасувати запис', callback_data: 'deleteOrder' }],
-                    [{ text: 'Статус роботи', callback_data: 'workStage' }],
-                    [{ text: 'Повернутись', callback_data: 'return' }]
-                ]
+                inline_keyboard: keyboard
             };
             await bot.sendMessage(msg.chat.id, `Запис № ${order.id}\nЗапис на: ${order.appointmentTime}\nВиберіть дію: `, { reply_markup: inlineKeyboard });
         }
