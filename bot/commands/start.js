@@ -26,37 +26,15 @@ const startHandler = async (bot, msg) => {
             await sendPhone(bot, msg, null)
         }
     }
-    if(client.phone === null || client.isConfirm === false)
+    if(!client.phone|| client.isConfirm === false)
     {
         await sendPhone(bot, msg, client)
     }
-    else if(client.name === null){
+    else if(!client.name){
         await nameRequest(bot, msg)
     }
     else {
-        client = await (await fetch(`${process.env.SERVER_URL}/Client?telegramId=${msg.chat.id}`)).json()
-        client = client[0]
-        const order = await (await fetch(`${process.env.SERVER_URL}/Order?clientId=${client.id}`)).json()
-        if(order.length === 0){
-            const reply_markup = {
-                keyboard: [
-                    [
-                        {
-                            text: 'Хочу записаться',
-                        }
-                    ]
-                ],
-                is_persistent: true,
-                resize_keyboard: true
-            }
-            await bot.sendMessage(msg.chat.id, `Здравствуйте, ${msg.chat.first_name}`, {reply_markup: reply_markup});
-
-        }
-        else{
-
-            const response = await bot.sendMessage(msg.chat.id, `Здравствуйте, ${msg.chat.first_name}`,{reply_markup: await getMainKeyboard(msg.chat.id)});
-        }
-
+        await bot.sendMessage(msg.chat.id, `Здравствуйте, ${msg.chat.first_name}`,{reply_markup: await getMainKeyboard(msg.chat.id)});
     }
 }
 

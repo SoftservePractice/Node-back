@@ -1,11 +1,21 @@
 const fetch = require("node-fetch");
-const { getMainKeyboard } = require("../mainKeyboard");
+const {getCurrentHistoryOrders} = require("../methods/getCurrentHistoryOrders");
+const PrettyTable = require("../methods/prettytable");
 
 const workStage = async (bot, msg) => {
-    const workstage = await (await fetch(`${process.env.SERVER_URL}/Work`)).json();
-    console.log(workstage);
-    await bot.sendMessage(msg.chat.id, `Детали: ${workstage[0].detail}шт\n\nОплата за детали: ${workstage[0].detailPrice}грн\nОплата за работу: ${workstage[0].workPrice}грн\n\n   Всего к оплате:\n   ${parseInt(workstage[0].detailPrice)+parseInt(workstage[0].workPrice)}грн`, { reply_markup: getMainKeyboard(msg.chat.id) });
-
+    const client = (await (await fetch(`${process.env.SERVER_URL}/Client?telegramId=${msg.chat.id}`)).json())[0]
+    const orders = await (await fetch(`${process.env.SERVER_URL}/Order?clientId=${client.id}`)).json()
+    const {current_order, history_order} = getCurrentHistoryOrders(orders)
+    const order = current_order[0]
+    const pt = new PrettyTable();
+    pt.fieldNames(["Робота", "Ціна"]);
+    const works = await (await fetch(`${process.env.SERVER_URL}/Work?orderId=${order.id}`)).json()
+    for (let i = 0; i<works.length;i++){
+        pt.addRow([works[i].workListNavigation.name,works[i].detailPrice + works[i].workPrice]);
+    }
+    console.log(pt.toString())
+    const text = '<pre>'+ pt.toString() +'</pre>'
+    await bot.sendMessage(msg.chat.id, text, {parse_mode:'HTML'});
 }
 
 module.exports = { workStage }

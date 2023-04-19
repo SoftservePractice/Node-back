@@ -1,26 +1,20 @@
 const fetch = require("node-fetch");
+const {getCurrentHistoryOrders} = require("./methods/getCurrentHistoryOrders");
 const getMainKeyboard = async (id) => {
     const client = (await (await fetch(`${process.env.SERVER_URL}/Client?telegramId=${id}`)).json())[0]
     const orders = await (await fetch(`${process.env.SERVER_URL}/Order?clientId=${client.id}`)).json()
-    let current_order = false
-    let history_order = false
-    for (let i = 0; i < orders.length; i++) {
-        if (!orders[i].end) {
-            current_order = true
-        } else {
-            history_order = true
-        }
-    }
+    const {current_order, history_order} = getCurrentHistoryOrders(orders)
     let keyboard = []
-    if (current_order) {
-        keyboard.push(["Просмотреть запись"])
+    if (current_order.length>0) {
+        keyboard.push(["Переглянути запис"])
     } else {
-        keyboard.push(["Хочу записаться"])
+        keyboard.push(["Хочу записатися"])
     }
-    if (history_order) {
-        keyboard.push(["История ремонтов"])
+    if (history_order.length>0) {
+        keyboard.push(["Історія ремонтів"])
     }
-    keyboard.push(["Связь с нами"])
+    keyboard.push(["Зв'язок з нами"])
+    keyboard.push(["Послуги"])
     return {
         "keyboard": keyboard,
         is_persistent: true,

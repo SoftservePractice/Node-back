@@ -17,7 +17,7 @@ const sendPhone = async (bot, msg, client) => {
             keyboard: [
                 [
                     {
-                        text: 'Отправить номер',
+                        text: 'Відправити номер',
                         request_contact: true,
 
                     }
@@ -26,7 +26,7 @@ const sendPhone = async (bot, msg, client) => {
             is_persistent: true,
             resize_keyboard: true
         }
-        await bot.sendMessage(msg.chat.id, `Подтвердите свой номер`, {reply_markup: reply_markup});
+        await bot.sendMessage(msg.chat.id, `Підтвердіть свій номер`, {reply_markup: reply_markup});
     } catch (e) {
         console.error(e)
     }
@@ -37,7 +37,7 @@ const confirmPhone = async (bot, msg, tg_phone) => {
     try {
         const client = (await (await fetch(`${process.env.SERVER_URL}/Client?telegramId=${msg.chat.id}`)).json())[0]
         const phone = tg_phone.replaceAll('+', '').replaceAll(' ', '').replaceAll('-', '')
-        if (client.phone !== null) {
+        if (client.phone) {
             const old_phone = client.phone.replaceAll('+', '').replaceAll(' ', '').replaceAll('-', '')
             if (old_phone !== phone) {
                 const reply_markup = {
@@ -56,7 +56,7 @@ const confirmPhone = async (bot, msg, tg_phone) => {
                     ],
 
                 }
-                await bot.sendMessage(msg.chat.id, `Выберите номер для связи`, {reply_markup: reply_markup});
+                await bot.sendMessage(msg.chat.id, `Виберіть номер для зв'язку`, {reply_markup: reply_markup});
             } else {
                 const response = await fetch(`${process.env.SERVER_URL}/Client/${client.id}?isConfirm=true`, {
                     method: 'PATCH',
@@ -66,7 +66,7 @@ const confirmPhone = async (bot, msg, tg_phone) => {
                         await nameRequest(bot, msg)
                     }
                     else {
-                        await bot.sendMessage(msg.chat.id, `Благодарим за подтверждение`, {reply_markup: getMainKeyboard(msg.chat.id)});
+                        await bot.sendMessage(msg.chat.id, `Дякуємо за підтвердження`, {reply_markup: await getMainKeyboard(msg.chat.id)});
                     }
                 } else {
                     console.error(response)
@@ -82,7 +82,7 @@ const confirmPhone = async (bot, msg, tg_phone) => {
                     await nameRequest(bot, msg)
                 }
                 else {
-                    await bot.sendMessage(msg.chat.id, `Благодарим за подтверждение`, {reply_markup: getMainKeyboard(msg.chat.id)});
+                    await bot.sendMessage(msg.chat.id, `Дякуємо за підтвердження`, {reply_markup: await getMainKeyboard(msg.chat.id)});
                 }
             } else {
                 console.error(response)
@@ -102,11 +102,11 @@ const phoneSelection = async (bot, callbackQuery) => {
           method: 'PATCH',
       })
       if (response.status === 200) {
-          if(client.name === null || client.name === ''){
+          if(!client.name){
               await nameRequest(bot, callbackQuery.message)
           }
           else {
-              await bot.sendMessage(callbackQuery.message.chat.id, `Благодарим за подтверждение`, {reply_markup: getMainKeyboard(callbackQuery.message.chat.id)});
+              await bot.sendMessage(callbackQuery.message.chat.id, `Дякуємо за підтвердження`, {reply_markup: await getMainKeyboard(callbackQuery.message.chat.id)});
           }
 
       } else {
