@@ -31,7 +31,7 @@ bot.on('callback_query', async (callbackQuery) => {
         await phoneSelection(bot, callbackQuery)
     }
     if (action === 'settime') {
-        await timeRequest(bot, callbackQuery.message)
+        await timeRequest(bot, callbackQuery.message, true)
     }
     if (action === 'deleteOrder') {
       await deleteOrder(bot, callbackQuery.message);

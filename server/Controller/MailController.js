@@ -37,7 +37,7 @@ class MailController{
         console.log('Client id: ' + client.id);
         console.log('Client email: ' + client.email)
         console.log('Token: ' + token);
-        await this.sendActivationMail(client.email, `http://localhost:3000/order/activate/${encodeURIComponent(token)}/${client.id}`);
+        await this.sendActivationMail(client.email, `http://vanl0076115.online-vm.com/order/activate/${encodeURIComponent(token)}/${client.id}`);
         console.log('SendActivasion end');
     }
     IsMatch(email, token) {

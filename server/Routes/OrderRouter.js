@@ -3,7 +3,7 @@ const app = express();
 const ClientController = require("../Controller/ClientController");
 const MailController = require("../Controller/MailController")
 app.post('/',async (req,res)=>{
-    const order = req.body.order;
+    const order = req.body;
     await ClientController.CreateUser(req,res,order);
 })
 app.get('/activate/:token/:id',async (req,res)=>{

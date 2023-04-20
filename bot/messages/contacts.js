@@ -8,7 +8,7 @@ const contacts = async (bot,msg)=>{
     pt.addRow(["Adress 3","+38-000-000-00-00", 'avtoservis2234@gmail.com']);
     pt.addRow(["Adress 4","+38-000-000-00-00", 'avtoservis2234@gmail.com']);
     const contactsString = '<pre>'+ pt.toString() +'</pre>';
-    await bot.sendMessage(msg.chat.id, contactsString, {reply_markup: getMainKeyboard(msg.chat.id), parse_mode:'HTML'});
+    await bot.sendMessage(msg.chat.id, contactsString, {reply_markup: await getMainKeyboard(msg.chat.id), parse_mode:'HTML'});
 };
 
 

@@ -21,7 +21,7 @@ const saveName = async (bot, msg) => {
 
 const nameRequest = async (bot, msg) => {
     await registerNextStep(msg.chat.id.toString(), saveName)
-    await bot.sendMessage(msg.chat.id, `Як до вас звертатись?`, {reply_markup: getMainKeyboard(msg.chat.id)})
+    await bot.sendMessage(msg.chat.id, `Як до вас звертатись?`, {reply_markup: await getMainKeyboard(msg.chat.id)})
 }
 
 module.exports = {nameRequest}

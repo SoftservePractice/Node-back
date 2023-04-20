@@ -8,7 +8,7 @@ const service = async (bot,msg)=>{
     pt.addRow(["Послуга","300грн"]);
     pt.addRow(["Послуга","400грн"]);
     const contactsString = '<pre>'+ pt.toString() +'</pre>';
-    await bot.sendMessage(msg.chat.id, contactsString, {reply_markup: getMainKeyboard(msg.chat.id), parse_mode:'HTML'});
+    await bot.sendMessage(msg.chat.id, contactsString, {reply_markup: await getMainKeyboard(msg.chat.id), parse_mode:'HTML'});
 };
 
 
