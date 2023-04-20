@@ -9,7 +9,7 @@ const saveName = async (bot, msg) => {
             method: 'PATCH'
         })
         if (response.status === 200) {
-            await bot.sendMessage(msg.chat.id, `Благодарим за подтверждение`);
+            await bot.sendMessage(msg.chat.id, `Дякуємо за підтвердження`);
         }
         else {
             console.error(response)
@@ -21,7 +21,7 @@ const saveName = async (bot, msg) => {
 
 const nameRequest = async (bot, msg) => {
     await registerNextStep(msg.chat.id.toString(), saveName)
-    await bot.sendMessage(msg.chat.id, `Как к вам обращаться?`, {reply_markup: getMainKeyboard(msg.chat.id)})
+    await bot.sendMessage(msg.chat.id, `Як до вас звертатись?`, {reply_markup: getMainKeyboard(msg.chat.id)})
 }
 
 module.exports = {nameRequest}

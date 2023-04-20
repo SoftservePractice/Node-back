@@ -62,7 +62,7 @@ const confirmPhone = async (bot, msg, tg_phone) => {
                     method: 'PATCH',
                 })
                 if (response.status === 200) {
-                    if(client.name === null){
+                    if(!client.name){
                         await nameRequest(bot, msg)
                     }
                     else {
@@ -78,7 +78,7 @@ const confirmPhone = async (bot, msg, tg_phone) => {
                 method: 'PATCH',
             })
             if (response.status === 200) {
-                if(client.name === null){
+                if(!client.name){
                     await nameRequest(bot, msg)
                 }
                 else {

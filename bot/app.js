@@ -33,13 +33,13 @@ bot.on('callback_query', async (callbackQuery) => {
     if (action === 'settime') {
         await timeRequest(bot, callbackQuery.message)
     }
-    else if (action === 'deleteOrder') {
+    if (action === 'deleteOrder') {
       await deleteOrder(bot, callbackQuery.message);
     }
-    else if(action === 'return'){
+    if(action === 'return'){
         await bot.deleteMessage(callbackQuery.message.chat.id, callbackQuery.message.message_id)
     }
-    else if(action === 'workStage'){
+    if(action === 'workStage'){
         await workStage(bot,callbackQuery.message)
     }
     if (action.includes( 'order')) {

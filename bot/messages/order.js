@@ -22,11 +22,9 @@ const orderList = async (bot,msg) => {
 
 const order = async (bot,callbackQuery) => {
     const order = await (await fetch(`${process.env.SERVER_URL}/Order/${callbackQuery.data.split(':')[1]}`)).json()
-
     const works = await (await fetch(`${process.env.SERVER_URL}/Work?orderId=${order.id}`)).json()
     const pt = new PrettyTable();
     pt.fieldNames(["Робота", "Ціна"]);
-
     for (let i = 0; i<works.length;i++){
         pt.addRow([works[i].workListNavigation.name,works[i].detailPrice + works[i].workPrice]);
     }

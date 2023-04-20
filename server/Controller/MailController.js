@@ -32,8 +32,8 @@ class MailController{
     async initActivasion(client) {
         console.log(client.email);
 
-        var salt = bcrypt.genSaltSync(16);
-        var token = await bcrypt.hashSync(client.email, salt);
+        const salt = bcrypt.genSaltSync(16);
+        const token = await bcrypt.hashSync(client.email, salt);
         console.log('Client id: ' + client.id);
         console.log('Client email: ' + client.email)
         console.log('Token: ' + token);
@@ -48,7 +48,7 @@ class MailController{
         const id = req.params.id;
         console.log(token);
         console.log(id);
-        var client = await (await fetch(`${process.env.SERVER_URL}/Client/${id}`)).json()
+        const client = await (await fetch(`${process.env.SERVER_URL}/Client/${id}`)).json()
         console.log(client);
         if (this.IsMatch(client.email, token)) {
             console.log('confirmed')

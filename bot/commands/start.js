@@ -34,7 +34,7 @@ const startHandler = async (bot, msg) => {
         await nameRequest(bot, msg)
     }
     else {
-        await bot.sendMessage(msg.chat.id, `Здравствуйте, ${msg.chat.first_name}`,{reply_markup: await getMainKeyboard(msg.chat.id)});
+        await bot.sendMessage(msg.chat.id, `Вітаємо, ${msg.chat.first_name}`,{reply_markup: await getMainKeyboard(msg.chat.id)});
     }
 }
 
